@@ -15,9 +15,9 @@ if not cap.isOpened():
 
 cv2.namedWindow("Detecção de Placas", cv2.WINDOW_NORMAL)
 
-# Ajustes de exposição e brilho
+# Ajustes de exposição e brilho (aumentado o brilho)
 cap.set(cv2.CAP_PROP_EXPOSURE, 0.5)  # Ajuste a exposição
-cap.set(cv2.CAP_PROP_BRIGHTNESS, 0.5)  # Ajuste o brilho
+cap.set(cv2.CAP_PROP_BRIGHTNESS, 0.8)  # Aumentando o brilho (valor maior)
 
 while True:
     ret, frame = cap.read()
@@ -25,16 +25,16 @@ while True:
         print("Falha ao capturar frame da webcam.")
         break
 
-    # Aplicando equalização do histograma para melhorar o contraste
+    # Aplicando equalização do histograma para melhorar o brilho
     frame_yuv = cv2.cvtColor(frame, cv2.COLOR_BGR2YUV)
     frame_yuv[:, :, 0] = cv2.equalizeHist(frame_yuv[:, :, 0])  # Equaliza a componente de brilho (Y)
     frame = cv2.cvtColor(frame_yuv, cv2.COLOR_YUV2BGR)
 
-    # Ajustando o contraste
-    frame = cv2.convertScaleAbs(frame, alpha=0.8,beta==0)  # Aumentando o contraste
+    # Aumentando o brilho da imagem
+    frame = cv2.convertScaleAbs(frame, alpha=1.0, beta=30)  # Beta controla o brilho, aumentando o valor
 
     # Redimensionamento para melhorar a detecção
-    scale_percent = 150
+    scale_percent = 100
     width = int(frame.shape[1] * scale_percent / 100)
     height = int(frame.shape[0] * scale_percent / 100)
     frame = cv2.resize(frame, (width, height), interpolation=cv2.INTER_CUBIC)
@@ -43,7 +43,7 @@ while True:
     img = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
     
     # Ajuste dos thresholds de confiança e IOU
-    results = model(img, conf=0.3, iou=0.3)
+    results = model(img, conf=0.1, iou=0.1)
 
     confidence_threshold = 0.1
     detections = results[0].boxes
