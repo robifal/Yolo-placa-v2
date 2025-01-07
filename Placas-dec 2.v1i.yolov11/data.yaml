@@ -1,0 +1,14 @@
+train: /home/estagiario-tarde/Área de Trabalho/Yolo-placa-v2/Placas-dec 2.v1i.yolov11/train/images
+val: /home/estagiario-tarde/Área de Trabalho/Yolo-placa-v2/Placas-dec 2.v1i.yolov11/train/images
+test: ../test/images
+
+nc: 2
+names: ['Placa_mercosul_carro', 'placa_moto']
+
+roboflow:
+  workspace: teste-de-placas
+  project: placas-dec-2
+  version: 1
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/teste-de-placas/placas-dec-2/dataset/1
+
